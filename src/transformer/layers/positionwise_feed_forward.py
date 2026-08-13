@@ -1,18 +1,20 @@
-"""Position-wise feed-forward network, section 3.3 of the paper."""
-
+import torch
 import torch.nn as nn
 
 
 class PositionwiseFeedForward(nn.Module):
-    """Two linear layers with a ReLU in between, applied independently to each position.
-
-    Input / Output: (batch, seq_len, d_model), with a d_ff-dim hidden layer in between.
-    """
+    """Position-wise Feed-Forward Network."""
 
     def __init__(self, d_model: int, d_ff: int, dropout: float):
-        super().__init__()
-        # TODO: Linear(d_model, d_ff) -> ReLU -> Dropout -> Linear(d_ff, d_model)
-        raise NotImplementedError
+        super(PositionwiseFeedForward, self).__init__()
+        self.linear1 = nn.Linear(d_model, d_ff)
+        self.relu = nn.ReLU()
+        self.dropout = nn.Dropout(dropout)
+        self.linear2 = nn.Linear(d_ff, d_model)
 
-    def forward(self, x):
-        raise NotImplementedError
+    def forward(self, x: torch.Tensor):
+        out = self.linear1(x)
+        out = self.relu(out)
+        out = self.dropout(out)
+        out = self.linear2(out)
+        return out
