@@ -30,7 +30,7 @@ class ScaleDotProductAttention(nn.Module):
         scores: torch.Tensor = q @ k.transpose(-1, -2) * d_k**-0.5
 
         if mask is not None:
-            scores.masked_fill(mask, float("-inf"))
+            scores = scores.masked_fill(mask, float("-inf"))
 
         attn_weights = F.softmax(scores, dim=-1)
 
