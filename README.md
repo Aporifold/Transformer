@@ -8,7 +8,7 @@
 
 ## 📋TODO List
 
-- [ ] Implement basic components (e.g., self-Attention, FFN).
+- [x] Implement basic components (e.g., self-Attention, FFN).
 - [ ] Implement Transformer encoder and decoder.
 - [ ] Support basic training on a specific task.
 
