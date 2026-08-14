@@ -1,20 +1,23 @@
-"""Combines token embedding + positional encoding + dropout."""
-
+import torch
 import torch.nn as nn
+
+from .positional_encoding import PositionalEncoding
+from .token_embedding import TokenEmbedding
 
 
 class TransformerEmbedding(nn.Module):
-    """Input embedding block shared by encoder and decoder.
+    """Transformer Embedding (Token + Position Embedding)."""
 
-    Input:  (batch, seq_len) long tensor of token ids
-    Output: (batch, seq_len, d_model)
-    """
+    def __init__(
+        self, vocab_size: int, d_model: int, max_len: int, pad_idx: int, dropout: float
+    ):
+        super(TransformerEmbedding, self).__init__()
+        self.tok_emb = TokenEmbedding(vocab_size, d_model, pad_idx)
+        self.pos_emb = PositionalEncoding(d_model, max_len)
+        self.dropout = nn.Dropout(dropout)
 
-    def __init__(self, vocab_size: int, d_model: int, max_len: int, pad_idx: int, dropout: float):
-        super().__init__()
-        # TODO: instantiate TokenEmbedding + PositionalEncoding + nn.Dropout
-        raise NotImplementedError
-
-    def forward(self, x):
-        # TODO: token_emb(x) + positional_encoding(x), then dropout
-        raise NotImplementedError
+    def forward(self, x: torch.Tensor):
+        tok_emb = self.tok_emb(x)
+        pos_emb = self.pos_emb(x)
+        out = self.dropout(tok_emb + pos_emb)
+        return out
