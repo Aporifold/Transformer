@@ -1,18 +1,42 @@
-"""Stack of N DecoderLayers, preceded by the target embedding, followed by an output projection."""
-
+import torch
 import torch.nn as nn
 
+from ..blocks import TransformerDecoderLayer
+from ..embedding import TransformerEmbedding
 
-class Decoder(nn.Module):
-    """Input:  tgt (batch, tgt_len) token ids, enc_out, tgt_mask, src_mask
-    Output: (batch, tgt_len, tgt_vocab_size) logits
-    """
 
-    def __init__(self, vocab_size: int, d_model: int, n_heads: int, n_layers: int,
-                 d_ff: int, max_len: int, pad_idx: int, dropout: float):
-        super().__init__()
-        # TODO: TransformerEmbedding + nn.ModuleList of n_layers DecoderLayer + output Linear(d_model, vocab_size)
-        raise NotImplementedError
+class TransformerDecoder(nn.Module):
+    """Transformer Decoder."""
 
-    def forward(self, tgt, enc_out, tgt_mask, src_mask):
-        raise NotImplementedError
+    def __init__(
+        self,
+        vocab_size: int,
+        d_model: int,
+        n_heads: int,
+        n_layers: int,
+        d_ff: int,
+        max_len: int,
+        pad_idx: int,
+        dropout: float,
+    ):
+        super(TransformerDecoder, self).__init__()
+        self.emb = TransformerEmbedding(vocab_size, d_model, max_len, pad_idx, dropout)
+        self.decoder_blocks = nn.ModuleList(
+            [
+                TransformerDecoderLayer(d_model, n_heads, d_ff, dropout)
+                for _ in range(n_layers)
+            ]
+        )
+        self.lm_head = nn.Linear(d_model, vocab_size)
+
+    def forward(
+        self,
+        dec: torch.Tensor,
+        enc: torch.Tensor,
+        tgt_mask=None,
+        src_mask=None,
+    ):
+        out = self.emb(dec)
+        for block in self.decoder_blocks:
+            out = block(out, enc, tgt_mask=tgt_mask, src_mask=src_mask)
+        return out
