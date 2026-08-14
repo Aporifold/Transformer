@@ -20,15 +20,13 @@ class EncoderLayer(nn.Module):
 
     def forward(self, x: torch.Tensor, src_mask=None):
         residual = x
-        out = self.self_attn(x, mask=src_mask)
+        out = self.self_attn(q=x, k=x, v=x, mask=src_mask)
         out = self.dropout1(out)
-        out += residual
-        out = self.norm1(out)
+        out = self.norm1(out + residual)
 
         residual = out
         out = self.ffn(out)
         out = self.dropout2(out)
-        out += residual
-        out = self.norm2(out)
+        out = self.norm2(out + residual)
 
         return out
