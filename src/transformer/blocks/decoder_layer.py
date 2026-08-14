@@ -4,11 +4,11 @@ import torch.nn as nn
 from ..layers import LayerNorm, MultiHeadAttention, PositionwiseFeedForward
 
 
-class DecoderLayer(nn.Module):
+class TransformerDecoderLayer(nn.Module):
     """Transformer Decoder Layer."""
 
     def __init__(self, d_model: int, n_heads: int, d_ff: int, dropout: float):
-        super(DecoderLayer, self).__init__()
+        super(TransformerDecoderLayer, self).__init__()
         # sub layer 1
         self.self_attn = MultiHeadAttention(d_model, n_heads)
         self.dropout1 = nn.Dropout(dropout)

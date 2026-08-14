@@ -1,7 +1,7 @@
-from .encoder_layer import EncoderLayer
-from .decoder_layer import DecoderLayer
+from .encoder_layer import TransformerEncoderLayer
+from .decoder_layer import TransformerDecoderLayer
 
 __all__ = [
-    "EncoderLayer",
-    "DecoderLayer",
+    "TransformerEncoderLayer",
+    "TransformerDecoderLayer",
 ]
