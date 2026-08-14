@@ -19,7 +19,7 @@ class Transformer(nn.Module):
             n_heads=config.n_heads,
             n_layers=config.n_layers,
             d_ff=config.d_ff,
-            max_len=config.d_ff,
+            max_len=config.max_len,
             dropout=config.dropout,
             pad_idx=config.pad_idx,
         )
@@ -30,7 +30,7 @@ class Transformer(nn.Module):
             n_heads=config.n_heads,
             n_layers=config.n_layers,
             d_ff=config.d_ff,
-            max_len=config.d_ff,
+            max_len=config.max_len,
             dropout=config.dropout,
             pad_idx=config.pad_idx,
         )

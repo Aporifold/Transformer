@@ -39,4 +39,4 @@ class TransformerDecoder(nn.Module):
         out = self.emb(dec)
         for block in self.decoder_blocks:
             out = block(out, enc, tgt_mask=tgt_mask, src_mask=src_mask)
-        return out
+        return self.lm_head(out)
