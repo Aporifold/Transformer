@@ -20,7 +20,7 @@ class TransformerDecoderLayer(nn.Module):
         # sub layer 3
         self.ffn = PositionwiseFeedForward(d_model, d_ff, dropout)
         self.dropout3 = nn.Dropout(dropout)
-        self.norm3 = LayerNorm(dropout)
+        self.norm3 = LayerNorm(d_model)
 
     def forward(
         self,
