@@ -22,13 +22,13 @@ class EncoderLayer(nn.Module):
         residual = x
         out = self.self_attn(x, mask=src_mask)
         out = self.dropout1(out)
-        out = self.norm1(out)
         out += residual
+        out = self.norm1(out)
 
         residual = out
         out = self.ffn(out)
         out = self.dropout2(out)
-        out = self.norm2(out)
         out += residual
+        out = self.norm2(out)
 
         return out
