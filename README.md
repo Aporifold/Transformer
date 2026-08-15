@@ -9,8 +9,9 @@
 ## 📋TODO List
 
 - [x] Implement basic components (e.g., self-Attention, FFN).
-- [ ] Implement Transformer encoder and decoder.
-- [ ] Support basic training on a specific task.
+- [x] Implement Transformer encoder and decoder.
+- [x] Support basic training on a specific task (toy sequence-reversal task, see `python -m transformer.train` / `python -m transformer.inference`).
+- [ ] Train on a real machine translation dataset (e.g. Multi30k).
 
 ## 👏Acknowledgement
 
